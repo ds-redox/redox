@@ -1,18 +1,26 @@
-`load_and_save_data` contains code for creating consistent data to be used by across different individuals, so that every uses the exact same data for model training and testing.
-Model comparison is more accurate with versioned data.
+`load_and_save_data` contains code for creating consistent data to be used by across different individuals, so that everyone uses the exact same data for model training and testing.
+Model comparison is more precise with versioned data.
+
+## General info about the generated data
 
 Data is created for different usecases and are divided to their own folders **2022**, **2022_sensors**, **2023** and **2023_sensors**.
 
-### Usage
+We removed high Redox_avg values (>900), so that the model only focuses on finding Redox_error_flags. High values are different kind of errors and these are removed by specialist automatically by running script using a specific threshold value.
 
-Use **2022** and **2022_sensors** for model training and testing. **2023** and **2023_sensors** data is used only for testing models performance on 2023 data.
-The performance on 2023 data can't be measured statistically, but rather visually to see if the model trained on **2022** and **2022_sensors** data finds the most obvious redox_avg fluctuations.
-2023 data has no redox_error_flags, thus statistical measures are not possible for classification.
+Training and testing data are split using 70/30 rate. Training data in both 2022 folders have 57,7% of target features and testig data has 42,3% of target features.
 
-2 usecases for training was created for performance comparison. 
+Both 2022 folders include scaled and non-scaled versions, where scaled data is stored in it's own folder named 'Scaled'. For scaling data we used **MinMaxScaler**.
 
-### 2022 data
-Data includes all pits and all sensors. It is split for training and testing. Training data includes scaled and non-scaled versions.
+2 usecases for training (2022 and 2022_sensors) was created for performance comparison.
 
-### 2022_sensors data
-Data includes all pits and is split by different sensors (1-5). Additionally theses splits include split for training and testing. As in 2022 this also includes scaled and non-scaled data for training.
+## 2022 data
+Data includes **all pits** and **all sensors**.
+
+## 2022_sensors data
+Data includes **all pits** and is **split by different sensors** (1-5).
+
+## Usage
+
+Use **2022** and **2022_sensors** for model training and testing, and **2023** and **2023_sensors** only for testing models performance on 2023 data.
+
+**Note** that 2023 data doesn't have target features (Redox_error_flag/Redox_error_flag(<pit_number>), thus model performance on this data can't be measured stastically. The prediction outcomes can be only checked visually to see if the model trained on **2022** and **2022_sensors** data finds the most obvious redox_avg fluctuations.
